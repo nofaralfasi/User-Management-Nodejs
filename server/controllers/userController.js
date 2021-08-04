@@ -23,14 +23,15 @@ exports.view = (req, res) => {
 // Find a user by search
 exports.find = (req, res) => {
   let searchVal = req.body.search;
-  connection.query('SELECT * FROM user WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ?', ['%' + searchVal + '%', '%' + searchVal + '%', '%' + searchVal + '%'], (err, rows) => {
-    if (!err) {
-      res.render('main', { rows });
-    } else {
-      console.log(err);
-    }
-    console.log('Data got from users table: \n', rows);
-  });
+  connection.query('SELECT * FROM user WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ?',
+    ['%' + searchVal + '%', '%' + searchVal + '%', '%' + searchVal + '%'], (err, rows) => {
+      if (!err) {
+        res.render('main', { rows });
+      } else {
+        console.log(err);
+      }
+      console.log('Data got from users table: \n', rows);
+    });
 }
 
 exports.form = (req, res) => {
@@ -40,7 +41,6 @@ exports.form = (req, res) => {
 // Add a new user
 exports.create = (req, res) => {
   const { first_name, last_name, email, phone, comments } = req.body;
-
   connection.query('INSERT INTO user SET first_name = ?, last_name = ?, email = ?, phone = ?, comments = ?', [first_name, last_name, email, phone, comments], (err, rows) => {
     if (!err) {
       res.render('new_user', { alert: 'User added successfully.' });
@@ -50,7 +50,6 @@ exports.create = (req, res) => {
     console.log('Data got from users table: \n', rows);
   });
 }
-
 
 // Edit a user
 exports.edit = (req, res) => {
@@ -64,57 +63,37 @@ exports.edit = (req, res) => {
   });
 }
 
-
 // Update a user
 exports.update = (req, res) => {
   const { first_name, last_name, email, phone, comments } = req.body;
-  connection.query('UPDATE user SET email = ?, first_name = ?, last_name = ?, phone = ?, comments = ? WHERE id = ?', [email, first_name, last_name, phone, comments, req.params.id], (err, rows) => {
+  connection.query('UPDATE user SET email = ?, first_name = ?, last_name = ?, phone = ?, comments = ? WHERE id = ?',
+    [email, first_name, last_name, phone, comments, req.params.id], (err, rows) => {
+      if (!err) {
+        connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, rows) => {
+          if (!err) {
+            res.render('update_user', { rows, alert: `${first_name} has been updated.` });
+          } else {
+            console.log(err);
+          }
+          console.log('Data got from users table: \n', rows);
+        });
+      } else {
+        console.log(err);
+      }
+      console.log('Data got from users table: \n', rows);
+    });
+}
 
+// Delete a user
+exports.delete = (req, res) => {
+  connection.query('DELETE FROM user WHERE id = ?', [req.params.id], (err, rows) => {
     if (!err) {
-      connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, rows) => {
-        if (!err) {
-          res.render('update_user', { rows, alert: `${first_name} has been updated.` });
-        } else {
-          console.log(err);
-        }
-        console.log('Data got from users table: \n', rows);
-      });
+      res.redirect('/');
     } else {
       console.log(err);
     }
     console.log('Data got from users table: \n', rows);
   });
-}
-
-// Delete a user
-exports.delete = (req, res) => {
-
-  // Delete a record
-
-  // User the connection
-  // connection.query('DELETE FROM user WHERE id = ?', [req.params.id], (err, rows) => {
-
-  //   if(!err) {
-  //     res.redirect('/');
-  //   } else {
-  //     console.log(err);
-  //   }
-  //   console.log('The data from user table: \n', rows);
-
-  // });
-
-  // Hide a record
-
-  connection.query('UPDATE user SET status = ? WHERE id = ?', ['removed', req.params.id], (err, rows) => {
-    if (!err) {
-      let removedUser = encodeURIComponent('User successeflly removed.');
-      res.redirect('/?removed=' + removedUser);
-    } else {
-      console.log(err);
-    }
-    console.log('Data got from users table is: \n', rows);
-  });
-
 }
 
 // View all users
