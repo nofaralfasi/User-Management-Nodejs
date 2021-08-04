@@ -23,7 +23,7 @@ exports.view = (req, res) => {
 // Find a user by search
 exports.find = (req, res) => {
   let searchVal = req.body.search;
-  connection.query('SELECT * FROM user WHERE first_name LIKE ? OR last_name LIKE ?', ['%' + searchVal + '%', '%' + searchVal + '%'], (err, rows) => {
+  connection.query('SELECT * FROM user WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ?', ['%' + searchVal + '%', '%' + searchVal + '%', '%' + searchVal + '%'], (err, rows) => {
     if (!err) {
       res.render('main', { rows });
     } else {
@@ -47,7 +47,7 @@ exports.create = (req, res) => {
     } else {
       console.log(err);
     }
-    console.log('The data got from user table: \n', rows);
+    console.log('Data got from users table: \n', rows);
   });
 }
 
