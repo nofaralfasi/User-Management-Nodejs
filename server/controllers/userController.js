@@ -1,6 +1,5 @@
 const mysql = require('mysql');
 
-// Connection Pool
 let connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -8,12 +7,12 @@ let connection = mysql.createConnection({
   database: process.env.DB_NAME
 });
 
-// View Users
+// View all users
 exports.view = (req, res) => {
   connection.query('SELECT * FROM user WHERE status = "active"', (err, rows) => {
     if (!err) {
       let removedUser = req.query.removed;
-      res.render('home', { rows, removedUser });
+      res.render('main', { rows, removedUser });
     } else {
       console.log(err);
     }
@@ -26,7 +25,7 @@ exports.find = (req, res) => {
   let searchVal = req.body.search;
   connection.query('SELECT * FROM user WHERE first_name LIKE ? OR last_name LIKE ?', ['%' + searchVal + '%', '%' + searchVal + '%'], (err, rows) => {
     if (!err) {
-      res.render('home', { rows });
+      res.render('main', { rows });
     } else {
       console.log(err);
     }
@@ -35,7 +34,7 @@ exports.find = (req, res) => {
 }
 
 exports.form = (req, res) => {
-  res.render('add-user');
+  res.render('new_user');
 }
 
 // Add a new user
@@ -44,7 +43,7 @@ exports.create = (req, res) => {
 
   connection.query('INSERT INTO user SET first_name = ?, last_name = ?, email = ?, phone = ?, comments = ?', [first_name, last_name, email, phone, comments], (err, rows) => {
     if (!err) {
-      res.render('add-user', { alert: 'User added successfully.' });
+      res.render('new_user', { alert: 'User added successfully.' });
     } else {
       console.log(err);
     }
@@ -57,7 +56,7 @@ exports.create = (req, res) => {
 exports.edit = (req, res) => {
   connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, rows) => {
     if (!err) {
-      res.render('edit-user', { rows });
+      res.render('update_user', { rows });
     } else {
       console.log(err);
     }
@@ -74,7 +73,7 @@ exports.update = (req, res) => {
     if (!err) {
       connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, rows) => {
         if (!err) {
-          res.render('edit-user', { rows, alert: `${first_name} has been updated.` });
+          res.render('update_user', { rows, alert: `${first_name} has been updated.` });
         } else {
           console.log(err);
         }
@@ -122,7 +121,7 @@ exports.delete = (req, res) => {
 exports.viewall = (req, res) => {
   connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, rows) => {
     if (!err) {
-      res.render('view-user', { rows });
+      res.render('view_user', { rows });
     } else {
       console.log(err);
     }
