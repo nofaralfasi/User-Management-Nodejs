@@ -10,7 +10,7 @@ Create a .env file to store your database credentials
 
 ```
 DB_HOST = localhost
-DB_NAME = usermanagement_tut
+DB_NAME = users_management
 DB_USER = root
 DB_PASS = password
 ```
