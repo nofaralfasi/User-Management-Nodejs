@@ -35,9 +35,14 @@
       <td>{{this.email}}</td>
       <td>{{this.phone}}</td>
       <td>
-        <a href="/view_user/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i> View</a>
-        <a href="/update_user/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-pencil"></i> Update</a>
-        <a href="/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-person-x"></i> Delete</a>
+        <a href="/view_user/{{this.id}}" type="button" class="btn btn-light btn-small">
+          <i class="bi bi-eye"></i>View
+        </a>
+        <a href="/update_user/{{this.id}}" type="button" class="btn btn-light btn-small">
+          <i class="bi bi-pencil"></i>Update
+        </a>
+        <a href="/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-person-x"></i> Delete
+        </a>
       </td>
     </tr>
     {{/each}}

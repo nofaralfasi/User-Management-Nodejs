@@ -1,43 +1,25 @@
-# Node.js User Management System - Express, Express-Handlebars, HBS, MySQL
-
-This was created as part of YouTube Video. Links below
-
-![GitHub Logo](https://raddy.co.uk/wp-content/uploads/2021/02/nodejs-user-management-system-crud-blog_compressed.jpg)
-
-
-## Create .env file
-Create a .env file to store your database credentials
-
-```
-DB_HOST = localhost
-DB_NAME = users_management
-DB_USER = root
-DB_PASS = password
-```
+# User Management System - with Node.js, HBS, MySQL
 
 ## Installation
 To run this project, install it locally using npm:
 
 ```
-$ npm install
+$ npm i
 $ npm start
 ```
 
+create a database named `users_management`, and run the following SQL query:
 
-### YouTube Video & Article
+CREATE TABLE `users_management`.`users` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(50) NOT NULL, `last_name` VARCHAR(50) NOT NULL, `email` VARCHAR(50) NOT NULL, `phone` VARCHAR(30) NOT NULL, `comments` TEXT NOT NULL, PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
-[YouTube Video](https://youtu.be/1aXZQcG2Y6I)
-
-[Read Article](https://raddy.co.uk/blog/simple-user-management-system-nodejs-express-mysql-handlebards/)
-
-### YouTube Channel - RaddyTheBrand
-
-[Subscribe to my YouTube Channel](https://www.youtube.com/channel/UCvXscyQ0cLzPZeNOeXI45Sw?sub_confirmation=1)
-
-### Website
-[www.raddy.co.uk](https://www.raddy.co.uk)
-
-### Donations
-[Via Paypal](https://www.paypal.me/RadoslavAngelov)
-
-[Buy me a Coffee](https://www.buymeacoffee.com/RaddyTheBrand)
+To add records to the DB run the following SQL query: 
+INSERT INTO `users` 
+(`id`, `first_name`, `last_name`, `email`, `phone`, `comments`) VALUES
+(NULL, 'Adam', 'James', 'adamjames@gmail.com','0501234567', ''),
+(NULL, 'Lin', 'Choen', 'linchoen@gmail.com', '0501234568', ''),
+(NULL, 'Yoni', 'Moshe', 'yonimoshe@gmail.com', '0501234569', ''),
+(NULL, 'Liat', 'Israel', 'liatisrael@gmail.com', '0501234578', ''),
+(NULL, 'Israel', 'Levi', 'israellevi@gmail.com', '0501244568', ''),
+(NULL, 'Jhon', 'Dohan', 'jhondohan@gmail.com', '0501264568', ''),
+(NULL, 'Rachel', 'Green ', 'rachelgreen@gmail.com', '0501234068', ''),
+(NULL, 'Ross', 'Geller ', 'rossgeller@gmail.com', '0501834568', '')

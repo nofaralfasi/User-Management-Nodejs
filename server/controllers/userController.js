@@ -8,7 +8,7 @@ let connection = mysql.createConnection({
 });
 
 // View all users
-exports.view = (req, res) => {
+exports.viewUsers = (req, res) => {
   connection.query('SELECT * FROM users', (err, rows) => {
     if (!err) {
       let removedUser = req.query.removed;
@@ -21,7 +21,7 @@ exports.view = (req, res) => {
 }
 
 // Find a user by search
-exports.find = (req, res) => {
+exports.findUsers = (req, res) => {
   let searchVal = req.body.search;
   connection.query('SELECT * FROM users WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ?',
     ['%' + searchVal + '%', '%' + searchVal + '%', '%' + searchVal + '%'], (err, rows) => {
@@ -34,26 +34,26 @@ exports.find = (req, res) => {
     });
 }
 
-exports.form = (req, res) => {
+exports.usersForm = (req, res) => {
   res.render('new_user');
 }
 
 // Add a new users
-exports.create = (req, res) => {
+exports.createNewUser = (req, res) => {
   const { first_name, last_name, email, phone, comments } = req.body;
-  connection.query('INSERT INTO users SET first_name = ?, last_name = ?, phone = ?, email = ?, comments = ?', 
-  [first_name, last_name, phone, email, comments], (err, rows) => {
-    if (!err) {
-      res.render('new_user', { alert: 'User was added successfully.' });
-    } else {
-      console.log(err);
-    }
-    console.log('Data got from users table: \n', rows);
-  });
+  connection.query('INSERT INTO users SET first_name = ?, last_name = ?, phone = ?, email = ?, comments = ?',
+    [first_name, last_name, phone, email, comments], (err, rows) => {
+      if (!err) {
+        res.render('new_user', { alert: 'User was added successfully.' });
+      } else {
+        console.log(err);
+      }
+      console.log('Data got from users table: \n', rows);
+    });
 }
 
 // Update a user
-exports.update = (req, res) => {
+exports.updateUser = (req, res) => {
   const { first_name, last_name, email, phone, comments } = req.body;
   connection.query('UPDATE users SET email = ?, first_name = ?, last_name = ?, phone = ?, comments = ? WHERE id = ?',
     [email, first_name, last_name, phone, comments, req.params.id], (err, rows) => {
@@ -74,7 +74,7 @@ exports.update = (req, res) => {
 }
 
 // Edit a user
-exports.edit = (req, res) => {
+exports.editUser = (req, res) => {
   connection.query('SELECT * FROM users WHERE id = ?', [req.params.id], (err, rows) => {
     if (!err) {
       res.render('update_user', { rows });
@@ -86,7 +86,7 @@ exports.edit = (req, res) => {
 }
 
 // Delete a user
-exports.delete = (req, res) => {
+exports.deleteUser = (req, res) => {
   connection.query('DELETE FROM users WHERE id = ?', [req.params.id], (err, rows) => {
     if (!err) {
       res.redirect('/');
