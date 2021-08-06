@@ -11,10 +11,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(express.json()); 
 
-// Static Files
-app.use(express.static('public'));
-
-// Templating Engine
+// Engine
 app.engine('hbs', exphbs( {extname: '.hbs' }));
 app.set('view engine', 'hbs');
 
